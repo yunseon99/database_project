@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>정리중인 도서 목록</h1>
+
+
+{% if error %}
+    <p style="color:red;">{{ error }}</p>
+{% endif %}
+
+<section>
+    <h2>도서 목록</h2>
+    {% if arranging_books %}
+        <ul>
+            {% for book in arranging_books %}
+                <li>
+                    <strong>{{ book.name }}</strong>
+                    <form method="POST" action="/librarian/dashboard">
+                        <input type="hidden" name="book_id" value="{{ book.id }}">
+                        <button type="submit" name="new_status" value="대출 가능">정리 완료</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>정리 중인 도서가 없습니다</p>
+    {% endif %}
+</section>
+{% endblock %}

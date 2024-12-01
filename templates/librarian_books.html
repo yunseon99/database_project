@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}도서 관리{% endblock %}
+
+{% block content %}
+<h1>도서 관리</h1>
+
+<form method="GET" action="/librarian_books">
+    <label for="name">제목으로 검색:</label>
+    <input type="text" name="name" id="name" value="{{ name_query or '' }}">
+
+    <label for="category">분야로 검색:</label>
+    <input type="text" name="category" id="category" value="{{ category_query or '' }}">
+
+    <label for="status">상태별 검색:</label>
+    <select name="status" id="status">
+        <option value="">All</option>
+        <option value="대출 가능" {% if status_filter == "대출 가능" %}selected{% endif %}>대출 가능</option>
+        <option value="대출 중" {% if status_filter == "대출 중" %}selected{% endif %}>대출 중</option>
+        <option value="정리 중" {% if status_filter == "정리 중" %}selected{% endif %}>정리 중</option>
+        <option value="분실" {% if status_filter == "분실" %}selected{% endif %}>분실</option>
+    </select>
+    <button type="submit">Search</button>
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>제목</th>
+            <th>저자</th>
+            <th>상태</th>
+            <th>분류 코드</th>
+            <th>식별코드</th>
+            <th>반납예정일</th>
+            <th>상태변경</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for book in books %}
+        <tr>
+            <td><a href="/book-details/{{ book.id }}">{{ book.name }}</a></td>
+            <td>{{ book.author }}</td>
+            <td>{{ book.status }}</td>
+            <td>{{ book.category_num }}</td>
+            <td>{{ book.classification }}</td>
+            <td>{{ book.due_date if book.due_date else "N/A" }}</td>
+            <td>
+                <form method="POST" action="/update_book_status" style="display:inline;">
+                    <input type="hidden" name="book_id" value="{{ book.id }}">
+                    <button type="submit" name="new_status" value="대출 가능">대출가능</button>
+                    <button type="submit" name="new_status" value="정리 중">정리 중</button>
+                    <button type="submit" name="new_status" value="분실">분실</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}도서 반납{% endblock %}
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>도서 반납</title>
+</head>
+<body>
+    <h1>도서 반납</h1>
+    {% if error %}
+        <p style="color:red;">{{ error }}</p>
+    {% endif %}
+    {% if success %}
+        <p style="color:green;">{{ success }}</p>
+    {% endif %}
+    <form method="POST">
+        <label>분류 코드:</label>
+        <input type="text" name="category_num" required><br>
+        <label>식별 코드:</label>
+        <input type="text" name="call_number" required><br>
+        <button type="submit">반납</button>
+    </form>
+</body>
+</html>
+
+
+{% endblock %}

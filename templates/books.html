@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>책 목록</title>
+</head>
+<body>
+    <h1>책 목록</h1>
+    <form method="GET" action="/books">
+        <input type="text" name="name" placeholder="제목으로 검색">
+        <input type="text" name="category" placeholder="분야로 검색">
+        <button type="submit">검색</button>
+    </form>
+
+    <ul>
+        {% for book in books %}
+        <li>
+            <strong>{{ book.name }}</strong> by {{ book.author }}<br>
+            출판사: {{ book.publisher }}<br>
+            분야: {{ book.category_description }}<br>
+            상태: {{ book.status }}
+            {% if book.status == "대출 가능" and session.get('user_type') == 'member' %}
+            <form method="POST" action="/reserve">
+                <input type="hidden" name="book_id" value="{{ book.id }}">
+                <button type="submit">도서 예약</button>
+            </form>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+
+{% endblock %}

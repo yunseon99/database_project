@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}My Page{% endblock %}
+
+{% block content %}
+<h1>My Page</h1>
+
+
+<h2>대출 도서</h2>
+<ul>
+    {% for book in loaned_list %}
+        <li>
+            {{ book.book_name }} 저자:{{ book.author }} 출판사:{{book.publisher}}  반납기한: {{ book.due_date }}
+            <form method="POST" action="/extend_loan" style="display:inline;">
+                <input type="hidden" name="book_id" value="{{ book.book_id }}">
+                <button type="submit">대출 연장</button>
+            </form>
+        </li>
+    {% endfor %}
+</ul>
+
+
+<h2>연체 도서</h2>
+<ul>
+    {% for book in overdue_list %}
+        <li>
+            {{ book.book_name }} 저자:{{ book.author }} 출판사:{{book.publisher}}  반납기한: {{ book.due_date }}
+        
+        </li>
+    {% endfor %}
+</ul>
+
+
+<h2>분실 도서</h2>
+<ul>
+    {% for book in lost_list %}
+        <li>{{ book.book_name }} 저자:{{ book.author }} 출판사:{{book.publisher}}  반납기한: {{ book.due_date }}</li>
+    {% endfor %}
+</ul>
+
+<!-- 예약한 책 -->
+<h2>예약 도서</h2>
+<ul>
+    {% for book in reserved_list %}
+        <li>
+            {{ book.book_name }} 저자:{{ book.author }} 출판사:{{book.publisher}} - 예약일: {{ book.reservation_date }} - 상태: {{ book.reservation_status }}
+            <form method="POST" action="/cancel_reservation" style="display:inline;">
+                <input type="hidden" name="book_id" value="{{ book.book_id }}">
+                <button type="submit">예약 취소</button>
+            </form>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

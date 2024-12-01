@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Library{% endblock %}</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">메인페이지</a></li>
+            {% if session.get('user_type') == 'librarian' %}
+            <li><a href="/librarian_books">도서 관리</a></li>
+            {% endif %}
+            {% if session.get('user_type') == 'member' %}
+            <li><a href="/books">도서 목록</a></li>
+            {% endif %}
+            {% if session.get('user_type') == 'librarian' %}
+                <li><a href="/add_book">도서 추가</a></li>
+                <li><a href="/approve_loan">대여</a></li>
+                <li><a href="/return">반납</a></li>
+            {% endif %}
+            {% if session.get('user_id') %}
+                <li><a href="/mypage">마이페이지</a></li>
+                <li><a href="/logout">로그아웃</a></li>
+            {% else %}
+                <li><a href="/login">로그인</a></li>
+                <li><a href="/register/member">회원가입</a></li>
+                <li><a href="/register/librarian">관리자 회원가입</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <ul>
+        {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>
+</html>

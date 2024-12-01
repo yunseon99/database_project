@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}도서 기록{% endblock %}
+
+{% block content %}
+<h1>도서 기록</h1>
+
+<section>
+    <h2>{{ book.name }}</h2>
+    <p><strong>저자:</strong> {{ book.author }}</p>
+    <p><strong>출판사:</strong> {{ book.publisher }}</p>
+    <p><strong>분류코드:</strong> {{ book.category_num }}</p>
+    <p><strong>식별코드:</strong> {{ book.classification }}</p>
+    <p><strong>출판일:</strong> {{ book.publication_date.strftime('%Y-%m-%d') }}</p>
+</section>
+
+<section>
+    <h2>로그</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>로그 일자</th>
+                <th>이전 상태</th>
+                <th>현재 상태</th>
+                <th>회원 명</th>
+                <th>회원 email</th>
+                <th>사서 명</th>
+                <th>사서 emai</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in log_entries %}
+            <tr>
+                <td>{{ log.log_date }}</td>
+                <td>{{ log.previous_status }}</td>
+                <td>{{ log.current_status }}</td>
+                <td>{{ log.member_name }}</td>
+                <td>{{ log.member_email }}</td>
+                <td>{{ log.librarian_name }}</td>
+                <td>{{ log.librarian_email }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}
