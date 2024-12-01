@@ -14,7 +14,7 @@
         <ul>
             {% for book in arranging_books %}
                 <li>
-                    <strong>{{ book.name }}</strong>
+                    <strong>{{ book.name }} by {{ book.book_author }} code: {{book.book_code}}</strong>
                     <form method="POST" action="/librarian/dashboard">
                         <input type="hidden" name="book_id" value="{{ book.id }}">
                         <button type="submit" name="new_status" value="대출 가능">정리 완료</button>

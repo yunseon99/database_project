@@ -315,8 +315,8 @@ def approve_loan():
             book_status.member_id = member.id
             book_status.librarian_id = session['user_id']
             book_status.status = '대출 중'
-            book_status.date = datetime
-            book_status.due_date = datetime + timedelta(weeks=2)
+            book_status.date = datetime.now()
+            book_status.due_date = datetime.utcnow() + timedelta(weeks=2)
 
             if reservations and reservations[0].member_id == member.id:
                 db.session.delete(reservations[0])
@@ -431,7 +431,11 @@ def librarian_dashboard():
         if book:
             arranging_books.append({
                 "id": book.id,
-                "name": book.name
+                "name": book.name,
+                "book_author": book.author,
+                "book_publisher": book.publisher,
+                "book_code" : book.category_num+" "+book.classification
+
             })
 
     return render_template('librarian_dashboard.html', arranging_books=arranging_books, error=error)
